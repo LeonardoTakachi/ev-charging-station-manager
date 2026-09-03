@@ -1,88 +1,45 @@
 # EV Charging Station Manager
 
-Sistema em Python para gerenciamento de múltiplas sessões de recarga de veículos elétricos.
+Sistema em **Python** para gerenciamento de múltiplas sessões de recarga de veículos elétricos, desenvolvido como projeto acadêmico para aplicar **programação orientada a objetos, estruturas de dados, algoritmos, análise de complexidade, testes automatizados e regras de negócio** em um cenário próximo de um sistema real.
 
-O projeto simula uma estação de recarga capaz de cadastrar e acompanhar sessões, distribuir a potência disponível entre veículos, calcular custos, pesquisar e ordenar registros e gerar estatísticas. Também aplica algoritmos implementados manualmente, permitindo analisar sua complexidade com Big-O.
+## Visão geral
 
-## Funcionalidades
+A aplicação simula uma estação de recarga capaz de cadastrar veículos, distribuir potência entre sessões ativas, acompanhar SOC e energia consumida, calcular custos, pesquisar e ordenar registros e gerar relatórios operacionais.
+
+O projeto também inclui uma simulação educacional de mensagens inspiradas no **OCPP 2.0.1**.
+
+## Principais funcionalidades
 
 - Cadastro de múltiplas sessões de recarga
 - ID de sessão manual ou gerado automaticamente
-- Validação de entradas e prevenção de IDs duplicados
-- Listagem detalhada das sessões
+- Validação de dados e prevenção de IDs duplicados
 - Busca de sessão por ID
 - Ordenação por ID, energia, custo ou tempo
 - Atualização simulada do SOC e da energia consumida
-- Balanceamento de potência entre veículos ativos
-- Simulação de mensagens OCPP 2.0.1
+- Smart Charging com balanceamento de potência
 - Tarifação dinâmica por horário
 - Encerramento de sessões
-- Estatísticas gerais
-- Relatório consolidado
+- Estatísticas e relatório consolidado
+- Simulação de eventos OCPP
+- Testes automatizados com `unittest`
 
 ## Conceitos aplicados
 
-O projeto foi desenvolvido para praticar fundamentos importantes de Ciência da Computação e desenvolvimento em Python:
-
-- Programação orientada a objetos
+- Programação Orientada a Objetos
 - Classes e objetos
-- Listas
-- Funções e métodos
-- Validação de dados
-- Estruturas condicionais e laços
-- Algoritmos de busca
-- Algoritmos de ordenação
+- Listas e estruturas de dados
+- Validação de entradas
+- Algoritmos de busca e ordenação
 - Análise de complexidade Big-O
-- Testes automatizados
-
-## Algoritmos
-
-### Busca Sequencial
-
-A busca percorre a lista de sessões do início ao fim até encontrar o ID solicitado.
-
-```python
-def busca_sequencial(self, id_sessao):
-    for sessao in self.sessoes:
-        if sessao.id_sessao == id_sessao:
-            return sessao
-    return None
-```
-
-**Complexidade no pior caso: `O(n)`**
-
-Se a sessão estiver no final da lista ou não existir, todos os elementos podem precisar ser verificados.
-
-### Bubble Sort
-
-A ordenação é implementada manualmente, sem utilizar `list.sort()` ou `sorted()` como substitutos do algoritmo.
-
-```python
-for i in range(n - 1):
-    for j in range(n - 1 - i):
-        if valor_atual > valor_proximo:
-            self.sessoes[j], self.sessoes[j + 1] = (
-                self.sessoes[j + 1],
-                self.sessoes[j]
-            )
-```
-
-**Complexidade no pior caso: `O(n²)`**
-
-O sistema permite ordenar as sessões por:
-
-1. ID da sessão
-2. Energia consumida
-3. Custo atual
-4. Tempo de recarga
-
-Mais detalhes estão em [`docs/algoritmos.md`](docs/algoritmos.md).
+- Testes unitários
+- Regras de negócio
+- Organização e documentação de projeto
 
 ## Smart Charging
 
-A estação possui uma capacidade máxima simulada de **50 kW**.
+A estação possui capacidade máxima simulada de **50 kW**.
 
-Cada veículo pode receber até **22 kW**. Quando a demanda total ultrapassa a capacidade da estação, a potência disponível é dividida igualmente entre as sessões ativas.
+Cada veículo pode receber até **22 kW**. Quando a demanda total ultrapassa o limite da estação, a potência disponível é dividida entre as sessões ativas.
 
 Exemplo:
 
@@ -91,22 +48,43 @@ Exemplo:
 Demanda teórica: 66 kW
 Limite da estação: 50 kW
 
-Potência por veículo:
+Potência aproximada por veículo:
 50 / 3 = 16,67 kW
 ```
 
+## Algoritmos
+
+### Busca Sequencial
+
+A busca percorre a lista de sessões até localizar o ID solicitado.
+
+- Melhor caso: `O(1)`
+- Pior caso: `O(n)`
+
+### Bubble Sort
+
+O projeto implementa manualmente Bubble Sort para ordenar as sessões por:
+
+1. ID da sessão
+2. Energia consumida
+3. Custo atual
+4. Tempo de recarga
+
+- Melhor caso com encerramento antecipado: `O(n)`
+- Pior caso: `O(n²)`
+
+A explicação completa está em [`docs/algoritmos.md`](docs/algoritmos.md).
+
 ## Simulação OCPP
 
-O projeto gera mensagens simuladas inspiradas no protocolo OCPP 2.0.1, incluindo eventos como:
+O sistema gera mensagens simuladas inspiradas no OCPP 2.0.1 para representar eventos como:
 
 - `AuthorizeRequest`
 - `TransactionEventStarted`
 - `MeterValuesRequest`
 - `TransactionEventEnded`
 
-O objetivo é representar de forma simplificada a comunicação entre uma estação de recarga e um backend.
-
-> Observação: esta é uma simulação educacional e não uma implementação completa do protocolo OCPP.
+> Esta é uma simulação educacional e não uma implementação completa do protocolo OCPP.
 
 ## Estrutura do projeto
 
@@ -126,27 +104,25 @@ ev-charging-station-manager/
 ### 1. Clone o repositório
 
 ```bash
-git clone <URL-DO-SEU-REPOSITORIO>
+git clone https://github.com/LeonardoTakachi/ev-charging-station-manager.git
 cd ev-charging-station-manager
 ```
 
 ### 2. Execute o programa
 
-Requer Python 3.
+Requer Python 3 e não utiliza bibliotecas externas.
 
 ```bash
 python main.py
 ```
 
-No Windows também pode ser necessário usar:
+No Windows, dependendo da instalação:
 
 ```bash
 py main.py
 ```
 
-Nenhuma biblioteca externa é necessária.
-
-## Menu
+## Menu principal
 
 ```text
 1. Nova Sessão de Recarga
@@ -160,40 +136,34 @@ Nenhuma biblioteca externa é necessária.
 9. Sair
 ```
 
-## Executando os testes
+## Testes automatizados
 
-Os testes utilizam apenas `unittest`, da biblioteca padrão do Python.
+Os testes utilizam `unittest`, da biblioteca padrão do Python.
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-Eles verificam pontos como:
+A suíte cobre cenários como:
 
 - cadastro válido;
-- rejeição de entradas inválidas;
-- ID duplicado;
-- Busca Sequencial;
-- Bubble Sort;
-- busca depois da ordenação;
+- rejeição de capacidade inválida;
+- prevenção de ID duplicado;
+- busca sequencial;
+- Bubble Sort por ID;
+- limite total do Smart Charging;
 - encerramento de sessão.
 
 ## Exemplo de fluxo
 
 1. Cadastre duas ou mais sessões.
 2. Avance alguns ciclos da simulação.
-3. Liste as sessões e observe SOC, energia, custo e potência.
+3. Observe SOC, energia, custo e potência alocada.
 4. Busque uma sessão pelo ID.
-5. Ordene as sessões por energia ou custo.
+5. Ordene as sessões por um dos critérios disponíveis.
 6. Consulte as estatísticas.
 7. Encerre uma sessão.
 8. Gere o relatório consolidado.
-
-## Contexto
-
-Projeto acadêmico desenvolvido para aplicar estruturas de dados e algoritmos em um problema relacionado a gerenciamento de recarga de veículos elétricos.
-
-A proposta combina conceitos algorítmicos com uma simulação de domínio real, preservando funcionalidades como Smart Charging e comunicação OCPP simulada.
 
 ## Possíveis evoluções
 
@@ -201,10 +171,17 @@ A proposta combina conceitos algorítmicos com uma simulação de domínio real,
 - API REST com FastAPI
 - Interface web
 - Autenticação de usuários
+- Histórico persistente de sessões
 - Integração com carregadores reais
-- Persistência e consulta de histórico
-- Testes unitários mais abrangentes
+- CI para execução automática dos testes
+- Ampliação da cobertura de testes
+
+## Contexto
+
+Projeto acadêmico desenvolvido para aplicar fundamentos de Ciência da Computação e desenvolvimento em Python em um problema relacionado a infraestrutura de recarga de veículos elétricos.
+
+A proposta combina algoritmos e estruturas de dados com regras de negócio de um domínio real, mantendo o escopo educacional do projeto.
 
 ---
 
-Desenvolvido em **Python** com foco em estruturas de dados, algoritmos e organização de software.
+Desenvolvido por **Leonardo Takachi** com foco em Python, algoritmos, estruturas de dados e boas práticas de desenvolvimento.
